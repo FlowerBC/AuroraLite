@@ -1,4 +1,10 @@
-# AuroraLite Shader Pack
+﻿# AuroraLite Shader Pack
+
+<div align="right">
+
+**[简体中文](README.md)** | **[English](README.en.md)**
+
+</div>
 
 一个**原版风味**的 Minecraft 光影包，面向 Java 版 1.20.1 及以上，使用 Iris 加载器。
 
