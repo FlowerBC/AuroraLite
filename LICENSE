@@ -1,0 +1,35 @@
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2025 AuroraLite Shader Pack
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ The full text of the GNU General Public License v3.0 is available at:
+ https://www.gnu.org/licenses/gpl-3.0.txt
+
+ ---
+
+ Dual Licensing Notice:
+
+ This shader pack is originally based on MakeUpUltraFast
+ (https://github.com/javiergcim/MakeUpUltraFast) by Javier Garduño,
+ released under the GNU Lesser General Public License v3.0 or later.
+
+ AuroraLite modifications are released under the
+ GNU General Public License v3.0 or later.
+
+ Per LGPL-3.0 Section 3, since this library is GPL-compatible,
+ you may redistribute and/or modify the resulting combined work
+ under the terms of GPL-3.0.
