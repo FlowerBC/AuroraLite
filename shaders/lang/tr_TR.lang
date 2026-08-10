@@ -1,4 +1,4 @@
-#Profiles
+﻿#Profiles
 ############################
 profile.no_effects=Efekt yok
 profile.shadowless_low=Gölgesiz Düşük
@@ -13,9 +13,9 @@ profile.comment="Gölgesiz" profiller, gölgeler göz ardı edilerek düşük pe
 
 #About
 #############################
-option.ACERCADE=MakeUp
+option.ACERCADE=AuroraLite
 option.ACERCADE.comment=Bu shaderı kullandığınız için teşekkür ederiz! :). Daha iyi kalite için Optifine yerel kalite kontrollerini normal veya varsayılan değerlere ayarlayın.
-value.ACERCADE.0=v.9.5c
+value.ACERCADE.0=v0.1.0
 
 #Options
 #############################

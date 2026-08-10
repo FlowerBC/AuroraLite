@@ -1,4 +1,4 @@
-# Perfiles
+﻿# Perfiles
 ############################
 profile.no_effects=Sin efectos
 profile.shadowless_low=Sin sombras - Bajo
@@ -13,9 +13,9 @@ profile.comment=Los perfiles "sin sombras" están pensados para máquinas de baj
 
 # Acerca de
 #############################
-option.ACERCADE=MakeUp
-option.ACERCADE.comment=¡Gracias por usar este shader! :). Configurá los controles de calidad nativos de Optifine en valores normales o predeterminados para mejor calidad.
-value.ACERCADE.0=v.9.5c
+option.ACERCADE=AuroraLite
+option.ACERCADE.comment=¡Gracias por usar AuroraLite shader! :) Basado en MakeUpUltraFast con mejoras realistas.
+value.ACERCADE.0=v0.1.0
 
 # Opciones
 #############################
