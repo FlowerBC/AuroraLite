@@ -1,4 +1,4 @@
-﻿#Profiles
+#Profiles
 ############################
 profile.no_effects=Inga effekter
 profile.shadowless_low=Låg (skugglös)
@@ -15,7 +15,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=AuroraLite
 option.ACERCADE.comment=Tack för att du använder AuroraLite shader! :) Baserad på MakeUpUltraFast med realistiska förbättringar.
-value.ACERCADE.0=v0.1.0
+value.ACERCADE.0=v0.2.0
 
 #Options
 #############################

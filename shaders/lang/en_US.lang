@@ -1,4 +1,4 @@
-﻿#Profiles
+#Profiles
 ############################
 profile.no_effects=No effects
 profile.shadowless_low=Shadowless Low
@@ -15,7 +15,7 @@ profile.comment=The "shadowless" profiles are designed for low-performance machi
 #############################
 option.ACERCADE=AuroraLite
 option.ACERCADE.comment=Thanks for using AuroraLite shader! :) Based on MakeUpUltraFast with realistic enhancements.
-value.ACERCADE.0=v0.1.0
+value.ACERCADE.0=v0.2.0
 
 #Options
 #############################

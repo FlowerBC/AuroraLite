@@ -1,4 +1,4 @@
-﻿#Profiles
+#Profiles
 ############################
 profile.no_effects=无效果
 profile.shadowless_low=无阴影-低
@@ -15,7 +15,7 @@ profile.comment=“无阴影”配置文件是为低性能电脑设计的，不�
 #############################
 option.ACERCADE=AuroraLite
 option.ACERCADE.comment=感谢使用 AuroraLite 光影！ :) 基于 MakeUpUltraFast 的写实增强版。
-value.ACERCADE.0=v0.1.0
+value.ACERCADE.0=v0.2.0
 
 #Options
 #############################
