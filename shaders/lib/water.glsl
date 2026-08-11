@@ -156,7 +156,10 @@ vec3 refraction(vec3 fragpos, vec3 color, vec3 refraction) {
         water_absortion = 0.0;
     }
 
-    return mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
+
+    vec3 refractedColor = mix(texture2D(gaux1, pos.xy).rgb, color, water_absortion);
+
+    return refractedColor;
 }
 
 vec3 get_normals(vec3 bump, vec3 fragpos) {

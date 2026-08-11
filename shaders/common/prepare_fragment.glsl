@@ -132,19 +132,24 @@ void main() {
 
         // Sun intensity based on height (sunset = warmer)
         vec3 sunColor = mix(
-            vec3(0.7, 0.35, 0.15),  // sunset/sunrise (warm orange, dimmer)
+            vec3(1.2, 0.6, 0.25),  // sunset/sunrise (warm orange, brighter)
             vec3(0.6, 0.57, 0.54),  // midday (warm white, less bright)
             smoothstep(0.0, 0.3, cosSunZenith)
         );
 
         // Night sky color (very dim)
-        vec3 nightColor = vec3(0.01, 0.015, 0.03);
+        vec3 nightColor = vec3(0.04, 0.05, 0.08);
 
         // Combine scattering
-        vec3 scatterColor = (rayleighScatter + vec3(mieScatter)) * sunColor;
+
+        // Rapidly fade out sun scattering when sun drops below horizon
+        // cosSunZenith < -0.15: sun well below horizon → no sun glow
+        // cosSunZenith > 0.08:  sun above horizon → full scattering
+        float sunGlowFactor = smoothstep(-0.15, 0.08, cosSunZenith);
+        vec3 scatterColor = (rayleighScatter + vec3(mieScatter)) * sunColor * sunGlowFactor;
 
         // Day/night blend factor
-        float dayWeight = smoothstep(-0.1, 0.15, cosSunZenith);
+        float dayWeight = smoothstep(-0.25, 0.2, cosSunZenith);
 
         // Base sky color from existing color system (for consistency with rain, etc.)
         float n_u = clamp(dot(nfragpos, upVector) + dither, 0.0, 1.0);
