@@ -28,6 +28,12 @@ uniform float pixelSizeX;
 uniform float pixelSizeY;
 uniform sampler2D gaux4;
 
+// Rain effect uniforms (Overworld only)
+#ifndef NETHER
+    uniform sampler2D noisetex;
+    uniform float frameTimeCounter;
+    uniform vec3 cameraPosition;
+#endif
 #if defined DISTANT_HORIZONS
     uniform float dhNearPlane;
     uniform float far;
@@ -77,8 +83,9 @@ uniform vec3 sunPosition;
     uniform vec3 shadowLightPosition;
 #endif
 
-#if defined THE_END || (SHADOW_LOCK > 0 && defined SHADOW_CASTING && !defined NETHER)
+#if defined THE_END || (SHADOW_LOCK > 0 && defined SHADOW_CASTING && !defined NETHER) || !defined NETHER
     uniform mat4 gbufferModelView;
+    uniform mat4 gbufferModelViewInverse;
 #endif
 
 /* Ins / Outs */
@@ -91,6 +98,12 @@ varying vec3 candleColor;
 varying float directLightStrength;
 varying vec3 omniLight;
 
+// Rain effect varyings
+#ifndef NETHER
+    varying vec3 vRainWorldPos;
+    varying float vRainSkyLight;
+    varying float vRainUpDot;
+#endif
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
     varying vec3 vWorldPos;
     varying vec3 vNormal;
@@ -174,13 +187,23 @@ vec3 calculateSpecular(vec3 N, vec3 V, vec3 L, vec3 albedo, float roughness, flo
 #endif
 
 #include "/lib/luma.glsl"
+#ifndef NETHER
+#if PUDDLE_TOGGLE == 1
+#include "/lib/rain_effect.glsl"
+#endif
+float puddleMaskSSR = 1.0;  // 1.0 = no puddle, < 1.0 = puddle
+#endif
 
 #if defined MATERIAL_GLOSS && !defined NETHER
     #include "/lib/material_gloss_fragment.glsl"
 #endif
 
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
-    #include "/lib/shadow_vertex.glsl"
+    #if PUDDLE_TOGGLE == 1
+    #include "/lib/rain_effect.glsl"
+    #endif
+float puddleMaskSSR = 1.0;  // 1.0 = no puddle, < 1.0 = puddle
+#include "/lib/shadow_vertex.glsl"
 #endif
 
 void main() {
@@ -360,6 +383,53 @@ void main() {
     // blockColor = vec4(omniLight, 1.0);
     // blockColor = vec4(vec3(directLightStrength), 1.0);
 
-    #include "/src/finalcolor.glsl"
+    
+// ========================================================
+    // Rain effect: wet surfaces + puddles
+// ========================================================
+    // Rain effect: wet surfaces + puddles
+// ========================================================
+    // Rain effect: wet surfaces + puddles
+// ========================================================
+    // Rain effect: wet surfaces + puddles
+// ========================================================
+    // Rain effect: wet surfaces + puddles
+    // Store puddle mask in alpha for SSR in composite
+// ========================================================
+    // Rain effect: wet surfaces + puddles
+    // ========================================================
+    #ifndef NETHER
+        #if PUDDLE_TOGGLE == 1
+        #if defined GBUFFER_TERRAIN || defined GBUFFER_BLOCK
+            if (rainStrength > 0.001 && isEyeInWater == 0) {
+                vec3 _absWorldPos = vRainWorldPos + cameraPosition;
+                float _wet = getRainWetness(_absWorldPos, vRainSkyLight, vRainUpDot, rainStrength);
+                float _pud = getPuddleMask(_absWorldPos, vRainSkyLight, vRainUpDot, rainStrength);
+
+                if (_wet > 0.002 || _pud > 0.002) {
+                    // --- Wet: darken ground ---
+                    blockColor.rgb *= mix(1.0, 0.7, _wet * 0.7);
+
+                    // --- Puddle: darken ---
+                    blockColor.rgb *= mix(1.0, 0.8, _pud);
+
+                    // --- Sun specular (sharp highlight) ---
+                    vec3 _sunDir = normalize(sunPosition);
+                    vec3 _viewDir = normalize(viewPositionNormalized);
+                    vec3 _normal = normalize(flatNormal);
+                    vec3 _H = normalize(_sunDir + _viewDir);
+                    float _NdotH = max(dot(_normal, _H), 0.0);
+                    float _sunSpec = pow(_NdotH, 96.0);
+                    blockColor.rgb += directLightColor * _sunSpec * (_wet * 0.3 + _pud * 4.0) * directLightStrength;
+
+                    // --- Store puddle mask for SSR ---
+                    puddleMaskSSR = 1.0 - _pud;
+                }
+            }
+        #endif
+        #endif // PUDDLE_TOGGLE
+    #endif
+
+#include "/src/finalcolor.glsl"
     #include "/src/writebuffers.glsl"
 }

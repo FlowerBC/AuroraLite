@@ -15,7 +15,7 @@ profile.comment="그림자 없음" 프로필은 저성능 기계를 위해 설�
 #############################
 option.ACERCADE=AuroraLite
 option.ACERCADE.comment=AuroraLite 셰이더를 사용해주셔서 감사합니다! :) MakeUpUltraFast 기반의 사실적 향상 버전.
-value.ACERCADE.0=v0.2.0
+value.ACERCADE.0=v1.0.0
 
 #옵션
 #############################

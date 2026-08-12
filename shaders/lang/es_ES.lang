@@ -15,7 +15,7 @@ profile.comment=Los perfiles "sin sombras" están pensados para máquinas de baj
 #############################
 option.ACERCADE=AuroraLite
 option.ACERCADE.comment=¡Gracias por usar AuroraLite shader! :) Basado en MakeUpUltraFast con mejoras realistas.
-value.ACERCADE.0=v0.2.0
+value.ACERCADE.0=v1.0.0
 
 # Opciones
 #############################

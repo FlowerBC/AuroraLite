@@ -14,6 +14,7 @@ const bool colortex1MipmapEnabled = true;
 /* Uniforms */
 
 uniform sampler2D colortex1;
+uniform sampler2D colortex2;
 uniform float far;
 uniform float near;
 uniform float blindness;
@@ -21,6 +22,8 @@ uniform float rainStrength;
 uniform sampler2D depthtex0;
 uniform int isEyeInWater;
 uniform ivec2 eyeBrightnessSmooth;
+uniform float viewWidth;
+uniform float viewHeight;
 
 #if MC_VERSION >= 11900
     uniform float darknessFactor;
@@ -54,6 +57,12 @@ uniform ivec2 eyeBrightnessSmooth;
     #endif
 #endif
 
+// SSR uniforms - only if not already declared by VOL_LIGHT
+#if !((VOL_LIGHT == 1 && !defined NETHER) || (VOL_LIGHT == 2 && defined SHADOW_CASTING && !defined NETHER))
+    uniform mat4 gbufferProjectionInverse;
+#endif
+uniform mat4 gbufferProjection;
+
 /* Ins / Outs */
 
 varying vec2 texcoord;
@@ -78,6 +87,9 @@ varying float exposure;
 
 #include "/lib/basic_utils.glsl"
 #include "/lib/depth.glsl"
+#ifndef NETHER
+#include "/lib/ssr.glsl"
+#endif
 
 #ifdef BLOOM
     #include "/lib/luma.glsl"
@@ -100,6 +112,39 @@ void main() {
     float d = texture2DLod(depthtex0, texcoord, 0).r;
     float linearDepth = ld(d);
 
+    #if PUDDLE_TOGGLE == 1
+// === SSR for puddle reflections ===
+    #ifndef NETHER
+    float puddleMaskRaw = texture2D(colortex2, texcoord).r;
+    float puddleStrength = clamp(1.0 - puddleMaskRaw, 0.0, 1.0);
+    if (rainStrength > 0.01 && puddleStrength > 0.01 && d < 0.9999) {
+        vec3 viewPos = reconstructViewPos(texcoord, d, gbufferProjectionInverse);
+        vec3 viewNormal = normalize(cross(dFdx(viewPos), dFdy(viewPos)));
+        if (dot(viewNormal, -viewPos) < 0.0) viewNormal = -viewNormal;
+
+        float ssrDither = fract(dot(gl_FragCoord.xy, vec2(0.5, 0.75487766624669276)));
+        vec2 screenPixelSize = vec2(1.0 / viewWidth, 1.0 / viewHeight);
+        vec2 screenSize = vec2(viewWidth, viewHeight);
+
+        vec3 reflection = doSSR(texcoord, d, viewPos, viewNormal,
+                                colortex1, depthtex0,
+                                gbufferProjection, gbufferProjectionInverse,
+                                near, far,
+                                screenPixelSize, screenSize,
+                                ssrDither);
+
+        // Puddle appearance: darken ground + subtle cool tint for water
+        vec3 waterTint = vec3(0.0, 0.002, 0.005) * puddleStrength;
+        vec3 darkened = blockColor.rgb * (1.0 - puddleStrength * 0.22);
+        vec3 puddleBase = darkened + waterTint;
+
+        // Add reflection with mild boost, final clamp to prevent white-wash
+        float reflBoost = 0.85;
+        blockColor.rgb = puddleBase + reflection * reflBoost;
+        blockColor.rgb = min(blockColor.rgb, vec3(1.0));
+    }
+    #endif
+#endif // PUDDLE_TOGGLE
     vec2 eyeBrightSmoothFloat = vec2(eyeBrightnessSmooth);
 
     // Depth to distance

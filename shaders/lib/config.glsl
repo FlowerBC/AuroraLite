@@ -49,6 +49,7 @@ AuroraLite modifications - GNU General Public License v3.0 or later
 #define NETHER_FOG_DISTANCE 1 // [0 1] // Sets Nether fog distance to half of the render distance (maximum of 96 blocks)
 #define ACERCADE 0 // [0]
 #define WAVING 1 // [0 1] Makes objects like leaves or grass move in the wind
+#define PUDDLE_TOGGLE 1 // [0 1] Enables rain wet surfaces and puddles with screen-space reflections on horizontal, sky-exposed ground blocks.
 #define TINTED_WATER 1  // [0 1] Use the resource pack color for water.
 #define REFRACTION 1  // [0 1] Activate refractions.
 // #define DOF // Enables depth of field (high performance cost).

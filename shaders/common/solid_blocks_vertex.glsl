@@ -49,7 +49,7 @@ uniform mat4 gbufferProjectionInverse;
     uniform mat4 gbufferModelView;
 #endif
 
-#if defined FOLIAGE_V || defined SHADOW_CASTING || (defined MATERIAL_GLOSS && !defined NETHER)
+#if defined FOLIAGE_V || defined SHADOW_CASTING || (defined MATERIAL_GLOSS && !defined NETHER) || !defined NETHER
     uniform mat4 gbufferModelViewInverse;
 #endif
 
@@ -64,8 +64,10 @@ uniform mat4 gbufferProjectionInverse;
     uniform vec3 shadowLightPosition;
 #endif
 
-#if WAVING == 1
+#if WAVING == 1 || !defined NETHER
     uniform vec3 cameraPosition;
+#endif
+#if WAVING == 1 || !defined NETHER
     uniform float frameTimeCounter;
 #endif
 
@@ -75,6 +77,14 @@ uniform mat4 gbufferProjectionInverse;
 
 #if defined GBUFFER_ENTITIES
     uniform int entityId;
+#endif
+
+
+// Always declare gbufferModelViewInverse for rain effect (Overworld only)
+#ifndef NETHER
+    #if !defined FOLIAGE_V && !defined SHADOW_CASTING && !(defined MATERIAL_GLOSS && !defined NETHER)
+        uniform mat4 gbufferModelViewInverse;
+    #endif
 #endif
 
 /* Ins / Outs */
@@ -87,6 +97,12 @@ varying vec3 candleColor;
 varying float directLightStrength;
 varying vec3 omniLight;
 
+// Rain effect - world position, skylight exposure, surface orientation
+#ifndef NETHER
+    varying vec3 vRainWorldPos;
+    varying float vRainSkyLight;
+    varying float vRainUpDot;
+#endif
 #if defined SHADOW_CASTING && SHADOW_LOCK > 0 && !defined NETHER
     varying vec3 vWorldPos;
     varying vec3 vNormal;
@@ -158,6 +174,15 @@ void main() {
     #include "/src/light_vertex.glsl"
     #include "/src/fog_vertex.glsl"
 
+    // Rain effect varyings
+    #ifndef NETHER
+        vec4 _rainViewPos = gl_ModelViewMatrix * gl_Vertex;
+        vec4 _rainWorldPos4 = gbufferModelViewInverse * _rainViewPos;
+        vRainWorldPos = _rainWorldPos4.xyz;
+        vRainSkyLight = lmcoord.y;
+        vec3 _rainWorldNormal = mat3(gbufferModelViewInverse) * normalize(gl_NormalMatrix * gl_Normal);
+        vRainUpDot = clamp(_rainWorldNormal.y, 0.0, 1.0);
+    #endif
     // Glowing blocks
     #if defined GBUFFER_TERRAIN || defined GBUFFER_HAND || defined GBUFFER_ENTITIES
         isEmissiveEntity = 0.0;

@@ -15,7 +15,7 @@ profile.comment=The "shadowless" profiles are designed for low-performance machi
 #############################
 option.ACERCADE=AuroraLite
 option.ACERCADE.comment=Thanks for using AuroraLite shader! :) Based on MakeUpUltraFast with realistic enhancements.
-value.ACERCADE.0=v0.2.0
+value.ACERCADE.0=v1.0.0
 
 #Options
 #############################
@@ -297,3 +297,7 @@ screen.CUSTOM_COLORS_SUNSET=Sunset/dawn custom colors
 screen.CUSTOM_COLORS_NIGHT=Night custom colors
 screen.CUSTOM_COLORS_WATER=Water custom color
 screen.CUSTOM_COLORS_NV=Night vision custom color
+option.PUDDLE_TOGGLE=Rain puddles
+value.PUDDLE_TOGGLE.0=Off
+value.PUDDLE_TOGGLE.1=On
+option.PUDDLE_TOGGLE.comment=Shows wet surface darkening, puddle shapes and real-time screen-space reflections on horizontal, sky-exposed ground when raining.
