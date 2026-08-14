@@ -80,13 +80,6 @@ uniform mat4 gbufferProjectionInverse;
 #endif
 
 
-// Always declare gbufferModelViewInverse for rain effect (Overworld only)
-#ifndef NETHER
-    #if !defined FOLIAGE_V && !defined SHADOW_CASTING && !(defined MATERIAL_GLOSS && !defined NETHER)
-        uniform mat4 gbufferModelViewInverse;
-    #endif
-#endif
-
 /* Ins / Outs */
 
 varying vec2 texcoord;

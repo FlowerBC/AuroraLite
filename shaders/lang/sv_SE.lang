@@ -15,7 +15,7 @@ profile.comment=De "skugglösa" profilerna är designade för datorer med låg p
 #############################
 option.ACERCADE=AuroraLite
 option.ACERCADE.comment=Tack för att du använder AuroraLite shader! :) Baserad på MakeUpUltraFast med realistiska förbättringar.
-value.ACERCADE.0=v1.0.0
+value.ACERCADE.0=v1.0.1
 
 #Options
 #############################

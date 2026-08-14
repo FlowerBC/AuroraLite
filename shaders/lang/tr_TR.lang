@@ -15,7 +15,7 @@ profile.comment="Gölgesiz" profiller, gölgeler göz ardı edilerek düşük pe
 #############################
 option.ACERCADE=AuroraLite
 option.ACERCADE.comment=Bu shaderı kullandığınız için teşekkür ederiz! :). Daha iyi kalite için Optifine yerel kalite kontrollerini normal veya varsayılan değerlere ayarlayın.
-value.ACERCADE.0=v1.0.0
+value.ACERCADE.0=v1.0.1
 
 #Options
 #############################
